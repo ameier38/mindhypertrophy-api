@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
-const TagSchema = new mongoose.Schema({
+const TagSchema = new Schema({
     name: {type: String, required: true},
 })
 
@@ -15,4 +16,4 @@ TagSchema.statics = {
     }
 }
 
-export default mongoose.model('Tag', CardSchema)
+export default mongoose.model('Tag', TagSchema)

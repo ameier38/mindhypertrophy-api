@@ -4,6 +4,7 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import routes from '../routes'
 
+const router = express.Router()
 const app =  express()
 
 // enable logging

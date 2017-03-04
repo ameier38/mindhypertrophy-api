@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
-const CardSchema = new mongoose.Schema({
+const CardSchema = new Schema({
     slug: {type: String, required: true},
     title: {type: String, required: true},
     summary: {type: String},
@@ -13,10 +14,12 @@ const CardSchema = new mongoose.Schema({
 CardSchema.statics = {
     getBySlug(slug) {
         return this.findOne({slug: slug})
+            .populate('tags')
             .exec()
     },
     list() {
         return this.find()
+            .populate('tags')
             .exec()
     }
 }
