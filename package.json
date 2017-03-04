@@ -2,11 +2,11 @@
   "name": "mindhypertrophy_api",
   "version": "1.0.0",
   "description": "API for mindhypertrophy.com blog.",
-  "main": "dist",
+  "main": "dist/server",
   "scripts": {
-    "dev": "nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
-    "build": "babel src -s -D -d dist --presets es2015,stage-0",
-    "start": "node dist",
+    "dev": "nodemon -w src --exec \"babel-node src --presets es2015\"",
+    "build": "babel src -s -D -d dist --presets es2015",
+    "start": "node dist/server",
     "prestart": "npm run -s build",
     "test": "eslint src"
   },
@@ -32,11 +32,10 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.13.3",
-    "compression": "^1.5.2",
     "cors": "^2.7.1",
     "express": "^4.13.3",
-    "morgan": "^1.8.0",
-    "resource-router-middleware": "^0.6.0"
+    "mongoose": "^4.8.5",
+    "morgan": "^1.8.0"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
