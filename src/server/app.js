@@ -6,7 +6,7 @@ import routes from '../routes'
 const app =  express()
 
 // enable logging
-app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'))
+app.use(morgan('common'))
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors())

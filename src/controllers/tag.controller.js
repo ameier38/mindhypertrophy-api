@@ -18,10 +18,10 @@ export const getById = (req, res, next) => {
 }
 
 export const seedTag = () => {
-    debug("seeding Tag")
     Tag.findOne({name: "test"}).exec()
         .then(tag => {
             if (!tag) {
+                debug("seeding Tag")
                 Tag.create({...testTag})
             }
         })

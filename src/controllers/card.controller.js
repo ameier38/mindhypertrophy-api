@@ -19,11 +19,11 @@ export const getBySlug = (req, res, next) => {
 }
 
 export const seedCard = () => {
-    debug("seeding Card")
     Card.list().then(cards => {
         if (cards.length === 0) {
             Tag.findOne({name: "test"}).exec()
                 .then(tag => {
+                    debug("seeding Card")
                     Card.create({
                         ...testCard,
                         tags: [tag._id]    

@@ -12,9 +12,12 @@ RUN npm install
 COPY . /usr/code
 
 # Set environment variables
-ENV MONGO_HOST=backend_db
-ENV MONGO_DEBUG=true
+ENV NODE_ENV=production
 ENV PORT=3000
+ENV MONGO_HOST=backend_db
+ENV MONGO_DATABASE=mindhypertrophy
+ENV MONGO_PORT=27017
+ENV DEBUG=api:*
 
 EXPOSE 3000
 CMD [ "npm", "start" ]
