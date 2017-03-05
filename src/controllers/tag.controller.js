@@ -1,0 +1,28 @@
+import Tag from '../models/tag.model'
+import { testTag } from '../seed_data'
+
+const debug = require('debug')('api:controllers:tag.controller')
+
+export const list = (req, res, next) => {
+    debug("list called")
+    Tag.list()
+        .then(tags => res.json(tags))
+        .catch(e => next(e))
+}
+
+export const getById = (req, res, next) => {
+    debug("getById called")
+    Tag.getById(req.params.tagId)
+        .then(tag => res.json(tag))
+        .catch(e => next(e))
+}
+
+export const seedTag = () => {
+    debug("seeding Tag")
+    Tag.findOne({name: "test"}).exec()
+        .then(tag => {
+            if (!tag) {
+                Tag.create({...testTag})
+            }
+        })
+}

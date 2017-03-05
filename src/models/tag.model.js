@@ -7,12 +7,10 @@ const TagSchema = new Schema({
 
 TagSchema.statics = {
     getById(id) {
-        return this.findById(id)
-            .exec()
+        return this.findById(id).exec()
     },
     list() {
-        return this.find()
-            .exec()
+        return this.find().exec()
     }
 }
 
