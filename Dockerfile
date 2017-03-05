@@ -1,26 +1,20 @@
-FROM alpine:3.4
+FROM node:boron
 
-# File Author / Maintainer
-LABEL authors="Andrew Meier <info@mindhypertrophy.com>"
-
-# Update & install required packages
-RUN apk add --update nodejs bash git
+# Create app directory
+RUN mkdir -p /usr/code
+WORKDIR /usr/code
 
 # Install app dependencies
-COPY package.json /www/package.json
-RUN cd /www; npm install
+COPY package.json /usr/code
+RUN npm install
 
-# Copy app source
-COPY . /www
+# Bundle app source
+COPY . /usr/code
 
-# Set work directory to /www
-WORKDIR /www
+# Set environment variables
+ENV MONGO_HOST=backend
+ENV MONGO_DEBUG=true
+ENV PORT=3000
 
-# set your port
-ENV PORT 8080
-
-# expose the port to outside world
-EXPOSE  8080
-
-# start command as per package.json
-CMD ["npm", "start"]
+EXPOSE 3000
+CMD [ "npm", "start" ]
