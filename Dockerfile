@@ -12,7 +12,7 @@ RUN npm install
 COPY . /usr/code
 
 # Set environment variables
-ENV MONGO_HOST=backend
+ENV MONGO_HOST=backend_db
 ENV MONGO_DEBUG=true
 ENV PORT=3000
 
