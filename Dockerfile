@@ -1,23 +1,25 @@
 FROM node:boron
 
-# Create app directory
-RUN mkdir -p /usr/code
-WORKDIR /usr/code
+# create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package.json /usr/code
+# install app dependencies
+COPY package.json /usr/src/app
 RUN npm install
 
-# Bundle app source
-COPY . /usr/code
+# bundle app source
+COPY . /usr/src/app
 
-# Set environment variables
+# set api environment variables
 ENV NODE_ENV=production
-ENV PORT=3000
-ENV MONGO_HOST=backend_db
-ENV MONGO_DATABASE=mindhypertrophy
-ENV MONGO_PORT=27017
+ENV PORT=5000
 ENV DEBUG=api:*
 
-EXPOSE 3000
+# set database environment variables
+ENV MONGO_HOST=db
+ENV MONGO_DATABASE=mindhypertrophy
+ENV MONGO_PORT=27017
+
+EXPOSE 5000
 CMD [ "npm", "start" ]

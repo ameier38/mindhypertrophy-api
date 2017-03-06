@@ -1,12 +1,12 @@
 version: '2'
 services:
-  backend_api:
+  api:
     build: .
     ports:
-     - "3000:3000"
+     - "5000:5000"
     depends_on: 
-      - "backend_db"
-  backend_db:
+      - "db"
+  db:
     image: "mongo"
     ports:
       - "27017:27017"
