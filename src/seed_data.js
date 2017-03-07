@@ -1,17 +1,12 @@
 export const testCard = {
-    slug: "test",
-    title: "Test",
-    summary: "A test seed card",
-    imageUrl: "http://path_to_image",
+    slug: "maintenance",
+    title: "Maintenance",
+    summary: "The site is currently under maintenance. Please check back soon.",
+    imageUrl: "",
     createdDate: Date.now(),
-    content: `
-    ### Test
-    This is a test card.
-    - bullet 1
-    - bullet 2
-    `
+    content: "### Maintenance \nPlease check back soon!"
 }
 
 export const testTag = {
-    name: "test"
+    name: "maintenance"
 }
