@@ -24,13 +24,14 @@ export const seedCard = () => {
             Tag.findOne().exec()
                 .then(tag => {
                     if (tag) {
+                        debug("seeding card")
                         Card.create({
                             ...testCard,
                             tags: [tag._id]    
                         })
                     }
                     else {
-                        debug('no tag found')
+                        debug("no tag found")
                     }
                 })
         }
