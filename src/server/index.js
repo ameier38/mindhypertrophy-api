@@ -11,7 +11,7 @@ const debug = require('debug')('api:server:index')
 configureMongo()
 
 // set the api port
-const PORT = process.env.PORT || 80
+const PORT = process.env.PORT || 5000
 
 // start the server
 app.listen(PORT, () => {

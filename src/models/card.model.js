@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate'
 const Schema = mongoose.Schema
 
-const CardSchema = new Schema({
+var CardSchema = new Schema({
     slug: {type: String, required: true},
     title: {type: String, required: true},
     summary: {type: String},
@@ -18,10 +19,16 @@ CardSchema.statics = {
             .exec()
     },
     list() {
-        return this.find()
-            .populate('tags')
-            .exec()
+        let options = {
+            lean: true,
+            leanWithId: true,
+            limit: 10,
+            populate: 'tags'
+        }
+        return this.paginate({}, options)
     }
 }
+
+mongoosePaginate(CardSchema)
 
 export default mongoose.model('Card', CardSchema)

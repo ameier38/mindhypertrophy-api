@@ -20,6 +20,7 @@ export const getBySlug = (req, res, next) => {
 
 export const seedCard = () => {
     Card.list().then(cards => {
+        debug(`cards:${cards.length}`)
         if (cards.length === 0) {
             Tag.findOne().exec()
                 .then(tag => {

@@ -8,8 +8,16 @@ const app =  express()
 // enable logging
 app.use(morgan('common'))
 
+// configure CORS
+var corsOptions = {
+   exposedHeaders: ['Content-Range'] 
+}
+
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors())
+app.use(cors(corsOptions))
+
+// enable pagination
+app.use(paginate.middleware())
 
 // mount all routes on /api path
 app.use('/api', routes)
