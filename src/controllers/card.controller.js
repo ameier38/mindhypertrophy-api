@@ -7,7 +7,10 @@ const debug = require('debug')('api:controllers:card.controller')
 export const list = (req, res, next) => {
     debug("list called")
     Card.list()
-        .then(cards => res.json(cards))
+        .then(cards => {
+            res.range({length: cards.length})
+            res.json(cards)
+        })
         .catch(e => next(e))
 }
 

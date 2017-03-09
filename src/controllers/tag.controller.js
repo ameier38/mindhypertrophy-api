@@ -6,7 +6,10 @@ const debug = require('debug')('api:controllers:tag.controller')
 export const list = (req, res, next) => {
     debug("list called")
     Tag.list()
-        .then(tags => res.json(tags))
+        .then(tags => {
+            res.range({length: tags.length})
+            res.json(tags)
+        })
         .catch(e => next(e))
 }
 

@@ -11,7 +11,7 @@ router.route('/')
     .get(list)
 
 router.route('/:tagId')
-    /** GET /api/tags/[tagId] - Get tag by slug */
+    /** GET /api/tags/[tagId] - Get tag by id */
     .get(getById)
 
 export default router

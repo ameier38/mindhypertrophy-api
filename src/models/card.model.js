@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import mongoosePaginate from 'mongoose-paginate'
 const Schema = mongoose.Schema
 
 var CardSchema = new Schema({
@@ -19,16 +18,10 @@ CardSchema.statics = {
             .exec()
     },
     list() {
-        let options = {
-            lean: true,
-            leanWithId: true,
-            limit: 10,
-            populate: 'tags'
-        }
-        return this.paginate({}, options)
+        return this.find()
+            .populate('tags')
+            .exec()
     }
 }
-
-mongoosePaginate(CardSchema)
 
 export default mongoose.model('Card', CardSchema)
