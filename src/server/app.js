@@ -6,9 +6,6 @@ import routes from '../routes'
 
 const app =  express()
 
-// set the app secret
-app.set(process.env.APP_SECRET)
-
 // enable body parsing to get info from request
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

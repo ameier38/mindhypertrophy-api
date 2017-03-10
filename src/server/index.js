@@ -1,11 +1,13 @@
-import app from './app'
-import configureMongo from './db'
-
 // load environment variables from .env file
 require('dotenv').config()
 
+import app from './app'
+import configureMongo from './db'
+
 // enable advanced debugging
 const debug = require('debug')('api:server:index')
+
+debug(`secret: ${process.env.APP_SECRET}`)
 
 // configure the mongo database
 configureMongo()
