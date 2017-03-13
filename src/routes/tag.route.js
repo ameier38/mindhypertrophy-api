@@ -1,6 +1,8 @@
 import express from 'express'
 import range from 'express-range'
-import { list, getById } from '../controllers/tag.controller'
+import {
+    listTags, getTag, createTag, updateTag, deleteTag 
+} from '../controllers/tag.controller'
 
 const router = express.Router()
 
@@ -8,10 +10,17 @@ router.use(range({accept: 'tags'}))
 
 router.route('/')
     /** GET /api/tags - Get list of tags */
-    .get(list)
+    .get(listTags)
+    /** POST /api/tags - Create a tag */
+    .post(createTag)
 
 router.route('/:tagId')
     /** GET /api/tags/[tagId] - Get tag by id */
-    .get(getById)
+    .get(getTag)
+    /** PUT /api/tags/[tagId] - Update a tag */
+    .put(updateTag)
+    /** DELETE /api/tags/[tagId] - Delete a tag */
+    .delete(deleteTag)
+
 
 export default router

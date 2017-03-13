@@ -1,5 +1,4 @@
 import express from 'express'
-import expressJwt from 'express-jwt'
 import cardRouter from './card.route'
 import tagRouter from './tag.route'
 import userRouter from './user.route'

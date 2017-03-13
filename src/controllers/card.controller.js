@@ -4,8 +4,8 @@ import { testCard } from '../seed_data'
 
 const debug = require('debug')('api:controllers:card.controller')
 
-export const list = (req, res, next) => {
-    debug("list called")
+export const listCards = (req, res, next) => {
+    debug("listCards called")
     Card.list()
         .then(cards => {
             res.range({length: cards.length})
@@ -14,29 +14,60 @@ export const list = (req, res, next) => {
         .catch(e => next(e))
 }
 
-export const getBySlug = (req, res, next) => {
-    debug("getBySlug called")
-    Card.getBySlug(req.params.slug)
+export const getCard = (req, res, next) => {
+    debug('getCard called')
+    Card.getById(req.params.cardId)
+        .then(card => res.json(card))
+        .catch(e => next(e))
+}
+
+export const createCard = (req, res, next) => {
+    debug('createCard called')
+    const { 
+        slug, title, summary, imageUrl, 
+        createdDate, content, tagNames 
+    } = req.body
+    const newCard = new Card({
+        slug, title, summary, imageUrl, 
+        createdDate, content, tagNames 
+    })
+    newCard.save()
+        .then(card => res.json(card))
+        .catch(e => next(e))
+}
+
+export const updateCard = (req, res, next) => {
+    debug('updateCard called')
+    const { 
+        slug, title, summary, imageUrl, 
+        createdDate, content, tagNames 
+    } = req.body
+    const updatedCard = {
+        slug, title, summary, imageUrl, 
+        createdDate, content, tagNames 
+    }
+    Card.update(req.params.cardId, updatedCard)
+        .then(card => res.json(card))
+        .catch(e => next(e))
+}
+
+export const deleteCard = (req, res, next) => {
+    debug('deleteCard called')
+    Card.delete(req.params.cardId)
         .then(card => res.json(card))
         .catch(e => next(e))
 }
 
 export const seedCard = () => {
     Card.list().then(cards => {
-        debug(`cards:${cards.length}`)
+        debug(`number of cards: ${cards.length}`)
         if (cards.length === 0) {
-            Tag.findOne().exec()
-                .then(tag => {
-                    if (tag) {
-                        debug("seeding card")
-                        Card.create({
-                            ...testCard,
-                            tags: [tag._id]    
-                        })
-                    }
-                    else {
-                        debug("no tag found")
-                    }
+            Tag.list()
+                .then(tags => {
+                    Card.create({
+                        ...testCard,
+                        tags: [tags[0]._id]    
+                    })
                 })
         }
     })

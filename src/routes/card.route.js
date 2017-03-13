@@ -1,6 +1,9 @@
 import express from 'express'
+import expressJwt from 'express-jwt'
 import range from 'express-range'
-import { list, getBySlug } from '../controllers/card.controller'
+import { 
+    listCards, getCard, createCard, updateCard, deleteCard 
+} from '../controllers/card.controller'
 
 const router = express.Router()
 
@@ -8,10 +11,16 @@ router.use(range({accept: 'cards'}))
 
 router.route('/')
     /** GET /api/cards - Get list of cards */
-    .get(list)
+    .get(listCards)
+    /** POST /api/cards - Create a card */
+    .post(createCard)
 
-router.route('/:slug')
-    /** GET /api/cards/[slug] - Get card by slug */
-    .get(getBySlug)
+router.route('/:cardId')
+    /** GET /api/cards/[cardId] - Get card by slug */
+    .get(getCard)
+    /** PUT /api/cards/[cardId] - Update a card */
+    .put(updateCard)
+    /** DELETE /api/cards/[cardId] - Delete a card */
+    .delete(deleteCard)
 
 export default router
