@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import Promise from 'bluebird'
+import trim from 'lodash/trim'
 
 const debug = require('debug')('api:models:tag.model')
 const Schema = mongoose.Schema
@@ -39,8 +40,12 @@ TagSchema.statics = {
     delete(id) {
         return this.findByIdAndRemove(id).exec()
     },
+    getTagsFromTagNames(tagNames) {
+        return Promise.all([...this.asyncTagGenerator(tagNames)])
+    },
     *asyncTagGenerator(tagNames) {
-        for (let name of tagNames.split(',')) {
+        const tagNameArray = tagNames.split(',').map(trim)
+        for (let name of tagNameArray) {
             // yield a Promise
             yield this.getOrCreate(name)
         }

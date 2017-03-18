@@ -13,14 +13,14 @@ router.route('/')
     /** GET /api/cards - Get list of cards */
     .get(listCards)
     /** POST /api/cards - Create a card */
-    .post(createCard)
+    .post(expressJwt({secret: process.env.APP_SECRET}), createCard)
 
 router.route('/:cardId')
     /** GET /api/cards/[cardId] - Get card by slug */
     .get(getCard)
     /** PUT /api/cards/[cardId] - Update a card */
-    .put(updateCard)
+    .put(expressJwt({secret: process.env.APP_SECRET}), updateCard)
     /** DELETE /api/cards/[cardId] - Delete a card */
-    .delete(deleteCard)
+    .delete(expressJwt({secret: process.env.APP_SECRET}), deleteCard)
 
 export default router

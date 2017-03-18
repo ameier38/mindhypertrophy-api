@@ -27,11 +27,11 @@ export const createCard = (req, res, next) => {
         slug, title, summary, imageUrl, 
         createdDate, content, tagNames 
     } = req.body
-    const newCard = new Card({
+    const newCard = {
         slug, title, summary, imageUrl, 
         createdDate, content, tagNames 
-    })
-    newCard.save()
+    }
+    Card.addNew(newCard)
         .then(card => res.json(card))
         .catch(e => next(e))
 }

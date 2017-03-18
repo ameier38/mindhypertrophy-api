@@ -22,21 +22,9 @@ const CardSchema = new Schema({
 
 CardSchema.virtual('tagNames')
     .get( function() {
-        debug('getting virtual tagsNames')
-        console.log(this.tags)
-        return this.tags.map(
-            tagId => {
-                return Tag.getById(tagId)
-                    .then(tag => tag.id)
-            }).join()
-    })
-    .set(async function(tagNames) {
-        debug('async create tags')
-        const promises = [...Tag.asyncTagGenerator(tagNames)]
-        console.log(promises)
-        const tags = await Promise.all(promises)
-        console.log(tags)
-        this.tags = tags
+        return this.populate('tags').tags
+            .map(tag => tag.name)
+            .join()
     })
 
 CardSchema.statics = {
@@ -50,28 +38,38 @@ CardSchema.statics = {
             .populate('tags')
             .exec()
     },
+    addNew(card) {
+        debug('creating card')
+        const newCard = Promise.all([
+            Tag.getTagsFromTagNames(card.tagNames),
+            this.create({...card})
+        ]).then(([tags, card]) => {
+            card.tags = tags
+            debug('saving card')
+            return card.save()
+        })
+        return newCard
+    },
     update(id, updates) {
         debug(`updating card id: ${id}`)
-        console.log(updates)
-        const updatedCard = this.findById(id).exec().then(
-            card => {
-                debug('card:')
-                console.log(card)
-                const { 
-                    slug, title, summary, imageUrl, 
-                    createdDate, content, tagNames 
-                } = updates
-                card.slug = slug
-                card.title = title
-                card.summary = summary
-                card.imageUrl = imageUrl
-                card.createdDate = createdDate
-                card.content = content
-                card.tagNames = tagNames
-                debug('saving card')
-                return card.save()
-            }
-        )
+        const { 
+            slug, title, summary, imageUrl, 
+            createdDate, content, tagNames 
+        } = updates
+        const updatedCard = Promise.all([
+            Tag.getTagsFromTagNames(tagNames),
+            this.findById(id).exec()
+        ]).then(([tags, card]) => {
+            card.slug = slug
+            card.title = title
+            card.summary = summary
+            card.imageUrl = imageUrl
+            card.createdDate = createdDate
+            card.content = content
+            card.tags = tags
+            debug('saving card')
+            return card.save()
+        })
         return updatedCard
     },
     delete(id) {
