@@ -4,7 +4,7 @@ services:
     build: .
     environment: 
       NODE_ENV: production
-      PORT: 5000
+      PORT: 80
       DEBUG: api:*
       MONGO_HOST: db
       MONGO_DATABASE: mindhypertrophy
@@ -12,7 +12,7 @@ services:
       APP_SECRET:
       ADMIN_PASSWORD:
     ports:
-     - "5000:5000"
+     - "80:80"
     depends_on: 
       - "db"
   db:
