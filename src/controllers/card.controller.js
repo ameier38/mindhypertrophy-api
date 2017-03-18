@@ -1,6 +1,4 @@
 import Card from '../models/card.model'
-import Tag from '../models/tag.model'
-import { testCard } from '../seed_data'
 
 const debug = require('debug')('api:controllers:card.controller')
 
@@ -56,19 +54,4 @@ export const deleteCard = (req, res, next) => {
     Card.delete(req.params.cardId)
         .then(card => res.json(card))
         .catch(e => next(e))
-}
-
-export const seedCard = () => {
-    Card.list().then(cards => {
-        debug(`number of cards: ${cards.length}`)
-        if (cards.length === 0) {
-            Tag.list()
-                .then(tags => {
-                    Card.create({
-                        ...testCard,
-                        tags: [tags[0]._id]    
-                    })
-                })
-        }
-    })
 }

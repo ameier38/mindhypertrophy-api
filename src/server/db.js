@@ -1,33 +1,22 @@
 import util from 'util'
 import mongoose from 'mongoose'
-import { seedCard } from '../controllers/card.controller'
-import { seedTag } from '../controllers/tag.controller'
-import { seedAdmin } from '../controllers/user.controller'
+import seedData from '../seed_data'
 
 const debug = require('debug')('api:server:db')
 mongoose.Promise = require('bluebird')
 
-// add initial data to the database
-// only seeds if data does not exist
-const seedMongo = () => {
-    seedAdmin()
-    seedTag()
-    seedCard()
-}
+const host = process.env.MONGO_HOST || 'localhost'
+const database = process.env.MONGO_DATABASE || 'admin'
+const port = process.env.MONGO_PORT || 27017
+const url = `mongodb://${host}:${port}/${database}`
 
 const configureMongo = () => {
-
-    const host = process.env.MONGO_HOST || 'localhost'
-    const database = process.env.MONGO_DATABASE || 'admin'
-    const port = process.env.MONGO_PORT || 27017
-    const url = `mongodb://${host}:${port}/${database}`
-
     debug(`connecting to ${url}...`)
     mongoose.connect(url).then(
-        () => seedMongo(),
+        () => seedData(),
         err => {
-            debug(err)
-            debug(`unable to connect to database ${url}`);
+            debug(`unable to connect to database: ${err}`)
+            setTimeout(configureMongo, 5000)
         }
     )
     if (process.env.MONGO_DEBUG) {

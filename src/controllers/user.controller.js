@@ -44,20 +44,3 @@ export const login = (req, res) => {
             }
         })
 }
-
-export const seedAdmin = () => {
-    User.getAdmin()
-        .then(user => {
-            if (!user) {
-                debug('seeding admin user')
-                User.create({
-                    username: 'admin',
-                    password: process.env.ADMIN_PASSWORD,
-                    admin: true
-                })
-            }
-            else {
-                debug('admin user already exists')
-            }
-        })
-}

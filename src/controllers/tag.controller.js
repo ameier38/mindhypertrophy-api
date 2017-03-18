@@ -1,5 +1,4 @@
 import Tag from '../models/tag.model'
-import { testTag } from '../seed_data'
 
 const debug = require('debug')('api:controllers:tag.controller')
 
@@ -39,15 +38,4 @@ export const deleteTag = (req, res, next) => {
     Tag.delete(req.params.tagId)
         .then(tag => res.json(tag))
         .catch(e => next(e))
-}
-
-export const seedTag = () => {
-    Tag.list()
-        .then(tags => {
-            debug(`number of tags: ${tags.length}`)
-            if (tags.length === 0) {
-                debug("seeding Tag")
-                Tag.create({...testTag})
-            }
-        })
 }
