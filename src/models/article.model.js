@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import Promise from 'bluebird'
 import Tag from './tag.model'
 
-const debug = require('debug')('api:models:card.model')
+const debug = require('debug')('api:models:article.model')
 const Schema = mongoose.Schema
 
 const options = {
@@ -10,7 +10,7 @@ const options = {
     toJSON: { virtuals: true }
 }
 
-const CardSchema = new Schema({
+const ArticleSchema = new Schema({
     slug: {type: String, required: true},
     title: {type: String, required: true},
     summary: {type: String},
@@ -20,14 +20,14 @@ const CardSchema = new Schema({
     tags: [{type: Schema.Types.ObjectId, ref: 'Tag'}]
 }, options)
 
-CardSchema.virtual('tagNames')
+ArticleSchema.virtual('tagNames')
     .get( function() {
         return this.populate('tags').tags
             .map(tag => tag.name)
             .join()
     })
 
-CardSchema.statics = {
+ArticleSchema.statics = {
     getById(id) {
         return this.findById(id)
             .populate('tags')
@@ -38,43 +38,43 @@ CardSchema.statics = {
             .populate('tags')
             .exec()
     },
-    addNew(card) {
-        debug('creating card')
-        const newCard = Promise.all([
-            Tag.getTagsFromTagNames(card.tagNames),
-            this.create({...card})
-        ]).then(([tags, card]) => {
-            card.tags = tags
-            debug('saving card')
-            return card.save()
+    addNew(article) {
+        debug('creating article')
+        const newArticle = Promise.all([
+            Tag.getTagsFromTagNames(article.tagNames),
+            this.create({...article})
+        ]).then(([tags, article]) => {
+            article.tags = tags
+            debug('saving article')
+            return article.save()
         })
-        return newCard
+        return newArticle
     },
     update(id, updates) {
-        debug(`updating card id: ${id}`)
+        debug(`updating article id: ${id}`)
         const { 
             slug, title, summary, imageUrl, 
             createdDate, content, tagNames 
         } = updates
-        const updatedCard = Promise.all([
+        const updatedArticle = Promise.all([
             Tag.getTagsFromTagNames(tagNames),
             this.findById(id).exec()
-        ]).then(([tags, card]) => {
-            card.slug = slug
-            card.title = title
-            card.summary = summary
-            card.imageUrl = imageUrl
-            card.createdDate = createdDate
-            card.content = content
-            card.tags = tags
-            debug('saving card')
-            return card.save()
+        ]).then(([tags, article]) => {
+            article.slug = slug
+            article.title = title
+            article.summary = summary
+            article.imageUrl = imageUrl
+            article.createdDate = createdDate
+            article.content = content
+            article.tags = tags
+            debug('saving article')
+            return article.save()
         })
-        return updatedCard
+        return updatedArticle
     },
     delete(id) {
         return this.findByIdAndRemove(id).exec()
     }
 }
 
-export default mongoose.model('Card', CardSchema)
+export default mongoose.model('Article', ArticleSchema)

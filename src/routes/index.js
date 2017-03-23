@@ -1,5 +1,5 @@
 import express from 'express'
-import cardRouter from './card.route'
+import articleRouter from './article.route'
 import tagRouter from './tag.route'
 import userRouter from './user.route'
 import errorHandler from 'api-error-handler'
@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 })
 
 // add api routes
-router.use('/cards', cardRouter)
+router.use('/articles', articleRouter)
 router.use('/tags', tagRouter)
 router.use('/users', userRouter)
 

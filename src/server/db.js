@@ -1,6 +1,6 @@
 import util from 'util'
 import mongoose from 'mongoose'
-import seedData from '../seed_data'
+import seedData from '../seedData'
 
 const debug = require('debug')('api:server:db')
 mongoose.Promise = require('bluebird')

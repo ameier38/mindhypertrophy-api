@@ -1,11 +1,11 @@
 import Tag from './models/tag.model'
-import Card from './models/card.model'
+import Article from './models/article.model'
 import User from './models/user.model'
 import Promise from 'bluebird'
 
 const debug = require('debug')('api:seed_data')
 
-const testCard = {
+const testArticle = {
     slug: "maintenance",
     title: "Maintenance",
     summary: "The site is currently under maintenance. Please check back soon.",
@@ -37,16 +37,19 @@ const seedTag = () => {
     }).catch(err => debug(`error seeding tag ${err}`))
 }
 
-const seedCard = (tagId) => {
-    Card.list().then(cards => {
-        return Promise.resolve(cards.length === 0)
-    }).then(createCard => {
-        createCard && debug('seeding card')
-        createCard && Card.create({
-            ...testCard,
-            tags: [tagId]    
-        })
-    }).catch(err => debug(`error seeding card: ${err}`))
+const seedArticle = (tagId) => {
+    Article.list().then(articles => {
+        if (articles.length === 0) {
+            debug('seeding article')
+            return Article.create({
+                ...testArticle,
+                tags: [tagId]    
+            })
+        }
+        else{
+            return Promise.resolve(articles[0])
+        }
+    }).catch(err => debug(`error seeding article: ${err}`))
 }
 
 const seedAdmin = () => {
@@ -64,7 +67,7 @@ const seedAdmin = () => {
 
 export default () => {
     seedTag().then(tagId => {
-        seedCard(tagId)
+        seedArticle(tagId)
     })
     seedAdmin()
 }
