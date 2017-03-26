@@ -30,11 +30,11 @@ export const createArticle = (req, res, next) => {
     debug('createArticle called')
     const { 
         slug, title, summary, imageUrl, 
-        createdDate, content, tagNames 
+        createdDate, markdown, tagNames 
     } = req.body
     const newArticle = {
         slug, title, summary, imageUrl, 
-        createdDate, content, tagNames 
+        createdDate, markdown, tagNames 
     }
     Article.addNew(newArticle)
         .then(article => res.json(article))
@@ -45,11 +45,11 @@ export const updateArticle = (req, res, next) => {
     debug('updateArticle called')
     const { 
         slug, title, summary, imageUrl, 
-        createdDate, content, tagNames 
+        createdDate, markdown, tagNames 
     } = req.body
     const updatedArticle = {
         slug, title, summary, imageUrl, 
-        createdDate, content, tagNames 
+        createdDate, markdown, tagNames 
     }
     Article.update(req.params.articleId, updatedArticle)
         .then(article => res.json(article))

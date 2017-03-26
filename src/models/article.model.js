@@ -16,7 +16,7 @@ const ArticleSchema = new Schema({
     summary: {type: String},
     imageUrl: {type: String},
     createdDate: {type: Date, default: Date.now()},
-    content: {type: String, required: true},
+    markdown: {type: String, required: true},
     tags: [{type: Schema.Types.ObjectId, ref: 'Tag'}]
 }, options)
 
@@ -54,7 +54,7 @@ ArticleSchema.statics = {
         debug(`updating article id: ${id}`)
         const { 
             slug, title, summary, imageUrl, 
-            createdDate, content, tagNames 
+            createdDate, markdown, tagNames 
         } = updates
         const updatedArticle = Promise.all([
             Tag.getTagsFromTagNames(tagNames),
@@ -65,7 +65,7 @@ ArticleSchema.statics = {
             article.summary = summary
             article.imageUrl = imageUrl
             article.createdDate = createdDate
-            article.content = content
+            article.markdown = markdown
             article.tags = tags
             debug('saving article')
             return article.save()

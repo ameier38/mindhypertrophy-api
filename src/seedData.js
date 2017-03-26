@@ -11,7 +11,7 @@ const testArticle = {
     summary: "The site is currently under maintenance. Please check back soon.",
     imageUrl: "",
     createdDate: Date.now(),
-    content: "### Maintenance \nPlease check back soon!"
+    markdown: "### Maintenance \nPlease check back soon!"
 }
 
 const testTag = {
@@ -45,9 +45,6 @@ const seedArticle = (tagId) => {
                 ...testArticle,
                 tags: [tagId]    
             })
-        }
-        else{
-            return Promise.resolve(articles[0])
         }
     }).catch(err => debug(`error seeding article: ${err}`))
 }
