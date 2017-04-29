@@ -44,7 +44,8 @@ TagSchema.statics = {
         return Promise.all([...this.asyncTagGenerator(tagNames)])
     },
     *asyncTagGenerator(tagNames) {
-        const tagNameArray = tagNames.split(',').map(trim)
+        const tagNameArray = tagNames ? tagNames.split(',').map(trim) : []
+        debug(`tagNameArray: ${tagNameArray}`)
         for (let name of tagNameArray) {
             // yield a Promise
             yield this.getOrCreate(name)
